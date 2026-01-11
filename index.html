@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Kindle Clock</title>
+    <meta http-equiv="refresh" content="60"> 
+    <style>
+        body {
+            margin: 0; padding: 0;
+            font-family: sans-serif;
+            text-align: center;
+            background-color: white;
+            /* 这里引用你的背景图，把 user 换成你的github用户名 */
+            /* 也可以直接用相对路径，但Kindle有时候加载相对路径有问题，建议用全链接 */
+            background-image: url('bg.jpg'); 
+            background-size: cover;
+            background-position: center;
+            color: black;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.85); /* 半透明白底 */
+            margin-top: 150px;
+            display: inline-block;
+            padding: 30px 50px;
+            border-radius: 15px;
+            border: 2px solid black;
+        }
+        #time { font-size: 100px; font-weight: bold; line-height: 1; }
+        #date { font-size: 30px; margin-top: 10px; }
+        #lunar { font-size: 24px; margin-top: 15px; color: #333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="time">Loading...</div>
+        <div id="date"></div>
+        <div id="lunar"></div>
+    </div>
+
+    <script>
+        // 简单的农历算法 (简化版，为了不引入巨大库文件，这里只显示日期不显年份)
+        function getLunar(d) {
+            // 这里为了极简，只返回简单的文本，如果需要精确农历库，需要引入 external script
+            // 考虑到Kindle网络，我们简单显示星期几替代复杂的农历计算，或者你可以引入 CDN
+            return "农历/星期计算中...";
+        }
+
+        function update() {
+            var now = new Date();
+            var h = now.getHours();
+            var m = now.getMinutes();
+            if (m < 10) m = "0" + m;
+            
+            // 时间
+            document.getElementById('time').innerText = h + ":" + m;
+            
+            // 日期
+            var options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            document.getElementById('date').innerText = now.toLocaleDateString('zh-CN', options);
+            
+            // 简单模拟农历/备注位置
+            document.getElementById('lunar').innerText = "记得喝水 | 保持专注";
+        }
+        update();
+    </script>
+</body>
+</html>
