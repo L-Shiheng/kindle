@@ -82,9 +82,15 @@ def create_clock_image():
     
     time_str = now.strftime("%H:%M")
     date_str = now.strftime("%Y-%m-%d %A")
-    lunar = ZhDate.from_datetime(now)
+    
+    # --- 修复开始 ---
+    # zhdate 库不支持带时区的时间，我们需要先把时区信息去掉(.replace(tzinfo=None))再传给它
+    lunar = ZhDate.from_datetime(now.replace(tzinfo=None)) 
+    # --- 修复结束 ---
+    
     lunar_str = f"农历 {lunar.chinese()}"
     weather_str = get_weather()
+
 
     # 5. 绘制文字 (Streamlit Cloud 只有默认字体，除非你上传字体文件)
     # 为了方便，我们这里使用默认字体，虽然丑一点但不用配置
